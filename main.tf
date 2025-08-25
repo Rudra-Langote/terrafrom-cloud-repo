@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
 }
@@ -101,8 +101,8 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "my_web_server" {
-  ami           = "ami-020cba7c55df1f615"
-  instance_type = "t2.micro"
+  ami           = var.ami_id
+  instance_type = var.instance_type
   subnet_id     = aws_subnet.public_subnet.id
   security_groups = [aws_security_group.web_sg.id]
   tags = {
@@ -126,8 +126,8 @@ resource "aws_security_group" "app_sg" {
 
 
 resource "aws_instance" "my_private_server" {
-  ami           = "ami-020cba7c55df1f615"
-  instance_type = "t2.micro"
+  ami           = var.ami_id
+  instance_type = var.instance_type
   subnet_id     = aws_subnet.private_subnet-1.id
   security_groups = [aws_security_group.app_sg.id]
   tags = {
